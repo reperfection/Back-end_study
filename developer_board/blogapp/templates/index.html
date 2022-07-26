@@ -1,0 +1,26 @@
+{% if user.is_authenticated %} <!--만약 로그인이 된 사용자가 이 인덱스.html로 request를 보냈다면-->
+안녕하세요, {{ user.username }}님!<br/>
+<a href="{% url 'logout' %}">로그아웃</a>
+{% else %} <!-- 만약 로그인되지 않았다면-->
+아직 로그인이 되지 않았습니다..
+
+<a href="{% url 'login' %}">로그인</a>
+{% endif %}
+<br/>
+
+<h1>My Simple blog</h1>
+
+<!--이 공간에는 블로그 글들의 목록을 보여줄 예정 -->
+{% for post in posts %}
+    <a href="{% url 'detail' post.id %}"><h3>{{ post.title }}</h3></a>
+    <h4>{{ post.date }}</h4>
+    <!-- django가 만든, 블로그 객체 생성 순서에 해당하는 보이지 않는 primary key : {{post.id}} -->
+{% endfor %}
+<br/><br/>
+<!--
+<a href="{% url 'new' %}">HTML을 이용한 새 글 작성</a><br/>
+<a href="{% url 'formcreate' %}">Djagno form을 이용한 새 글 작성</a><br/>
+-->
+{% if user.is_authenticated %}
+<a href="{% url 'modelformcreate' %}">Djagno modelForm을 이용한 새 글 작성</a>
+{% endif %}
